@@ -1,0 +1,6 @@
+/build/
+/mock/
+/config/
+**/dist/
+**/static/
+**/plugins/
