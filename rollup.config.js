@@ -25,9 +25,7 @@ const customResolver = resolve({
 function getPlungins() {
   return [
     alias({
-      entries: [
-        { find: "@/", replacement: path.resolve(projectRootDir, "src") },
-      ],
+      entries: [{ find: "@/", replacement: path.resolve(projectRootDir, "src") }],
       customResolver,
     }),
     resolve({
@@ -75,7 +73,7 @@ export default [
         exports: "auto",
       }, //一个自动执行的功能，适合作为<script>标签。（如果要为应用程序创建一个捆绑包，您可能想要使用它，因为它会使文件大小变小。）
     ],
-    plugins: plugins
+    plugins: plugins,
   },
   {
     input: "src/index.ts",
@@ -99,7 +97,19 @@ export default [
       },
     ],
     plugins: getPlungins(),
-    external:["@wxwzl/eventemitter"]
+    external: ["@wxwzl/eventemitter"],
+  },
+  {
+    input: "src/index.ts",
+    output: [
+      {
+        file: packageJSON.module,
+        format: "esm",
+        exports: "auto",
+        name: libName,
+      },
+    ],
+    plugins: plugins,
   },
   {
     input: "src/index.ts",
@@ -111,6 +121,6 @@ export default [
         name: libName,
       },
     ],
-    plugins:  plugins,
+    plugins: plugins,
   },
 ];
