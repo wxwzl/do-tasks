@@ -1,10 +1,12 @@
 import EventEmitter from "@wxwzl/eventemitter";
 class TaskClass extends EventEmitter {
-  execution: ((resolve: (value: unknown) => void, reject: (e?: Error) => void) => void) | null =
+  execution: ((resolve: (value?: unknown) => void, reject: (e?: Error) => void) => void) | null =
     null;
 
   promise: Promise<unknown> | null = null;
-  constructor(execution: (resolve: (value: unknown) => void, reject: (e?: Error) => void) => void) {
+  constructor(
+    execution: (resolve: (value?: unknown) => void, reject: (e?: Error) => void) => void
+  ) {
     super();
     this.execution = execution;
   }
@@ -51,7 +53,7 @@ class TaskPoolClass extends EventEmitter {
   }
 
   addTask(
-    execution: (resolve: (value: unknown) => void, reject: (e?: Error) => void) => void,
+    execution: (resolve: (value?: unknown) => void, reject: (e?: Error) => void) => void,
     immediate?: boolean
   ) {
     const task = new TaskClass(execution);
@@ -64,7 +66,7 @@ class TaskPoolClass extends EventEmitter {
 
   run() {
     for (let i = this.runNumber; i < this.maxSize; i++) {
-      let task = this.list.shift();
+      const task = this.list.shift();
       if (task) {
         this.runNumber++;
         task.run().finally(() => {
