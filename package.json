@@ -1,6 +1,6 @@
 {
   "name": "do-tasks",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "do-tasks",
   "main": "dist/index.min.js",
   "module": "dist/index.esm.js",

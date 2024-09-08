@@ -48,6 +48,14 @@
     done();
   });
 
+  // 停止所有任务运行
+
+  taskPool.stop();
+
+  // 清除所有任务
+
+  taskPool.clearAllTask()
+
 ```
 
 

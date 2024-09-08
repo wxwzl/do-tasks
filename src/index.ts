@@ -43,10 +43,15 @@ class TaskClass extends EventEmitter {
   }
 }
 export type Task = TaskClass;
-class TaskPoolClass extends EventEmitter {
+export const Status = {
+  stoped: "stoped",
+  running: "running",
+};
+export class TaskPool extends EventEmitter {
   list: Array<Task> = [];
   maxSize = -1;
   runNumber = 0;
+  state = Status.stoped;
   constructor(concurrentNumber: number) {
     super();
     this.maxSize = concurrentNumber;
@@ -64,8 +69,20 @@ class TaskPoolClass extends EventEmitter {
     return task;
   }
 
+  stop() {
+    this.state = Status.stoped;
+  }
+
+  clearAllTask() {
+    this.list = [];
+  }
+
   run() {
+    this.state = Status.running;
     for (let i = this.runNumber; i < this.maxSize; i++) {
+      if (this.state === Status.stoped) {
+        break;
+      }
       const task = this.list.shift();
       if (task) {
         this.runNumber++;
@@ -83,7 +100,6 @@ class TaskPoolClass extends EventEmitter {
   }
 }
 
-export type TaskPool = TaskPoolClass;
 export function initializePool(config: { concurrentNumber: number }) {
-  return new TaskPoolClass(config.concurrentNumber);
+  return new TaskPool(config.concurrentNumber);
 }
